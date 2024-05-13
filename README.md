@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/eneru2/wibo/blob/main/.github/media/wibo_long_logo.png" alt="Wibo logo">
+<img src="https://raw.githubusercontent.com/eneru2/wibo/main/.github/media/wibo_long_logo.png" alt="Wibo logo">
 
 # Wibo
 Wibo is an advanced image optimization tool and code generator designed to assist developers in seamlessly converting images into the three primary web formats: AVIF, WebP, and JPG. It not only optimizes images for modern web standards but also ensures compatibility across various browsers by automatically generating fallback code. This means that while Wibo prioritizes newer formats for enhanced performance and quality, it intelligently falls back to alternative options when compatibility issues arise, ensuring a consistent user experience across different platforms and devices.
@@ -10,7 +10,7 @@ Wibo is an advanced image optimization tool and code generator designed to assis
 - **Customizable Output Code:** Get the code snippets you need, tailored to your preferences.
 - **Retro Design:** Inspired in the old macOS style.
 
-![Wibo in Action](https://raw.githubusercontent.com/eneru2/wibo/blob/main/.github/media/use_case.mp4)
+![Wibo in Action](https://raw.githubusercontent.com/eneru2/wibo/main/.github/media/use_case.mp4)
 
 
 Install from package

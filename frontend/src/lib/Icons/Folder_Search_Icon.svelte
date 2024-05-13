@@ -1,0 +1,12 @@
+<svg
+  class="icon line-color w-5"
+  fill="#000000"
+  viewBox="0 0 24 24"
+  id="folder-search"
+  data-name="Line Color"
+  xmlns="http://www.w3.org/2000/svg">
+  <path id="secondary" d="M15,19a4,4,0,1,0-4-4A4,4,0,0,0,15,19Zm6,2-3.17-3.17" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+  </path>
+  <path id="primary" d="M7,18H4a1,1,0,0,1-1-1V4A1,1,0,0,1,4,3H9a1,1,0,0,1,.71.29l2.41,2.42a1,1,0,0,0,.71.29H20a1,1,0,0,1,1,1v3" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+  </path>
+</svg>

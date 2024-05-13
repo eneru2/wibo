@@ -72,7 +72,7 @@ func (a *App) Open_Output_Dir_Dialog(name string) string {
 func (a *App) ConvertImage(input_file string, format []string, scale string, output_location string, output_schema string) string {
 	// ffmpeg_location := "G:/Andrés/Download/ffmpeg-7.0-essentials_build/bin/ffmpeg"
 	// ffmpeg_location := "./ffmpeg.exe"
-	ffmpeg_location := "ffmpeg"
+	ffmpeg_location := "./ffmpeg"
 	ffmpeg_scale := "scale=" + scale + ":-1"
 	for i := 0; i < len(format); i++ {
 		ffmpeg_output := ""

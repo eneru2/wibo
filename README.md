@@ -11,7 +11,7 @@ Wibo is an advanced image optimization tool and code generator designed to assis
 - **Retro Design:** Inspired in the old macOS style.
 
 ![Wibo in Action](https://raw.githubusercontent.com/eneru2/wibo/blob/main/.github/media/use_case.mp4)
-<img src="https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/323177892/original/3847d47013299cce4970a6c881067a248f008ba4/create-a-cross-platform-desktop-application-for-you.png">
+
 
 Install from package
 -------------------

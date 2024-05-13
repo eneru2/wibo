@@ -10,8 +10,14 @@ Wibo is an advanced image optimization tool and code generator designed to assis
 - **Customizable Output Code:** Get the code snippets you need, tailored to your preferences.
 - **Retro Design:** Inspired in the old macOS style.
 
-![Wibo in Action](https://raw.githubusercontent.com/eneru2/wibo/main/.github/media/use_case.mp4)
-
+## Wibo in Action
+<video
+    autoplay
+    loop
+    controls
+    muted
+    src="https://raw.githubusercontent.com/eneru2/wibo/main/.github/media/use_case.mp4">
+</video>
 
 Install from package
 -------------------

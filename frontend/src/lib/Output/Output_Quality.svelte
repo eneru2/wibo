@@ -1,9 +1,27 @@
-<script>
-  import Range from "./Range.svelte";
-    import RangeLayout from "./Range_Layout.svelte";
-import TooltipLayout from "./Tooltip_Layout.svelte";
-  let avif_value = 25
-  let webp_value = 83
+<script lang="ts">
+  import { onMount } from "svelte";
+  import RangeLayout from "../Layouts/Range_Layout.svelte";
+  import TooltipLayout from "../Layouts/Tooltip_Layout.svelte";  
+  import { WriteOutputQualities } from "../../../wailsjs/go/main/App";
+
+  export function load_config(config) {
+    avif_crf = config.saved_state.avif_crf;
+    webp_quality = config.saved_state.webp_quality;
+  }
+
+  let write_config = (format:string, value:number) => {
+    switch(format){
+      case "avif":
+        WriteOutputQualities("avif_crf", value);
+        break;
+      case "webp":
+        WriteOutputQualities("webp_quality", value)
+        break;
+    };
+  };
+  
+  export let avif_crf = 25
+  export let webp_quality = 83
 
   let avif_tooltip = false
   let webp_tooltip = false
@@ -22,8 +40,6 @@ import TooltipLayout from "./Tooltip_Layout.svelte";
     Greater values improve quality at the expense of file size. The value can range from
     0 to 100`
 
-
-
 </script>
 
 <div>
@@ -31,7 +47,7 @@ import TooltipLayout from "./Tooltip_Layout.svelte";
   <div class="flex flex-col gap-y-2 pt-1">
     <div class="flex items-center">
       AVIF
-      <div class="w-6 h-6 relative"
+      <div class="w-6 h-6 relative ml-2"
       on:mouseenter={() => avif_tooltip = true}
       on:mouseleave={() => avif_tooltip = false}>
         <svg
@@ -51,10 +67,13 @@ import TooltipLayout from "./Tooltip_Layout.svelte";
             bind:default_behaviour={avif_default_behaviour}
             />
         {/if}
-      </div>
+      </div>:
       <RangeLayout
-        value={25}
+        bind:value_change={write_config}
+        bind:value={avif_crf}
+        name={"avif"}
         container_width={160}
+        maxlength={2}
         max={63}/>
     </div>
       <!-- <input
@@ -62,7 +81,7 @@ import TooltipLayout from "./Tooltip_Layout.svelte";
         type="range" min="0" max="63" /> -->
     <div class="flex">
       WEBP
-      <div class="w-6 h-6 relative"
+      <div class="w-6 h-6 relative ml-2"
       on:mouseenter={() => webp_tooltip = true}
       on:mouseleave={() => webp_tooltip = false}>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
@@ -72,10 +91,13 @@ import TooltipLayout from "./Tooltip_Layout.svelte";
           bind:default_behaviour={webp_default_behaviour}
           />
       {/if}
-    </div>
+    </div>:
       <RangeLayout
-        value={83}
+        bind:value_change={write_config}
+        bind:value={webp_quality}
+        name={"webp"}
         container_width={160}
+        maxlength={3}
         max={100}/>
     </div>    
   </div>

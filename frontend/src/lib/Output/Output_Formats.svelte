@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { ReadConfig, WriteOutputFormats } from '../../wailsjs/go/main/App';
+  import { ReadConfig, WriteOutputFormats } from '../../../wailsjs/go/main/App';
   
   interface config {
     saved_state: {
@@ -23,25 +23,17 @@
     }
   }
 
-  export let formats:Array<string> = [];
-  export let config:any;
+  export let formats:Array<string> = [];  
   
   let avif = false;
   let webp = false;
   let jpg = false;
   
-  function load_config() {
-    avif = config.saved_state.output_avif;
-    webp = config.saved_state.output_webp;
-    jpg = config.saved_state.output_jpg;
+  export function load_config(config) {
+      avif = config.saved_state.output_avif;
+      webp = config.saved_state.output_webp;
+      jpg = config.saved_state.output_jpg;      
   }
-
-  function readConfig(){
-    ReadConfig().then(res => {
-      config = res;
-      load_config();
-    })    
-  };
 
   function write_config(format, state){
     let send_format;
@@ -58,8 +50,6 @@
     };
     WriteOutputFormats(send_format, state)
   };
-
-  readConfig()
 
   function check_current_formats(format:string){
     switch(format){
@@ -110,8 +100,6 @@
       }
   };
 
-  onMount(() => {
-  })
 </script>
 
 <h2>Output formats:</h2>

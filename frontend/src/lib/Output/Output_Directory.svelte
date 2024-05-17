@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { Open_Output_Dir_Dialog } from '../../wailsjs/go/main/App';
-  import Folder_Search_Icon from './Icons/Folder_Search_Icon.svelte'
+  import { Open_Output_Dir_Dialog } from '../../../wailsjs/go/main/App';
+  import Folder_Search_Icon from '.././Icons/Folder_Search_Icon.svelte'
   
   export let output_dir:string;  
 

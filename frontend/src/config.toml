@@ -1,0 +1,17 @@
+[saved_state]
+indenting_amount = 4
+include_mime_types = true
+use_absolute_paths = false
+use_new_lines_for_properties = false
+
+output_avif = false
+output_webp = true
+output_jpg = false
+
+avif_crf = 25
+webp_quality = 83
+
+[options]
+output_resolutions = []
+use_height_for_output = false
+disable_tooltips = false

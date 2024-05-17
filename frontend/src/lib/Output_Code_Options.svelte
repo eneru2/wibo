@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-
+  import { WriteIndentingAmount, WriteOutputCodeOptions} from "../../wailsjs/go/main/App"
   let wants_output_code = true;
   let tooltip_on_screen = false;
   export let output_schema = "";
@@ -12,10 +11,22 @@
   let indenting_amount = 4;
   let mime_types = false;  
   let absolute_path = false;  
-  let one_liners = false;
+  let use_new_lines_for_properties = false;
   
   let custom_path = true; 
   let custom_path_route = "";
+
+
+  export function load_config(config) {
+    indenting_amount = config.saved_state.indenting_amount;
+    mime_types = config.saved_state.include_mime_types;
+    absolute_path = config.saved_state.use_absolute_paths;
+    use_new_lines_for_properties = config.saved_state.use_new_lines_for_properties;
+  }
+
+  function write_config(propertie:string, value:boolean|number){
+    propertie === "indenting_amount" ? WriteIndentingAmount(value) : WriteOutputCodeOptions(propertie, !value)
+  }
 
   function indent(times = 1){
     let inner_spaces = "";
@@ -121,7 +132,7 @@
         let format = formats[0];
         let string = `<img src="/${internal_output_schema}.${format}" alt="${alt}">`;
 
-        string = !one_liners ? string : delete_one_liners(string, 1);
+        string = !use_new_lines_for_properties ? string : delete_one_liners(string, 1);
         string = mime_types ? string : delete_mimes(string);
         string = absolute_path ? string : delete_absolute_paths(string);
         string = custom_path_route != "" ? append_custom_path(string) : string;
@@ -135,7 +146,7 @@
           <img src="/${internal_output_schema}.${second_format}" alt="${alt}">\n</picture>`;          
         string = initial_indenting(string);
         string = mime_types ? string : delete_mimes(string);
-        string = !one_liners ? string : delete_one_liners(string);
+        string = !use_new_lines_for_properties ? string : delete_one_liners(string);
         string = absolute_path ? string : delete_absolute_paths(string);
         string = custom_path_route != "" ? append_custom_path(string) : string;
         return string;
@@ -151,7 +162,7 @@
 
         string = initial_indenting(string);
         string = mime_types ? string : delete_mimes(string);
-        string = !one_liners ? string : delete_one_liners(string);
+        string = !use_new_lines_for_properties ? string : delete_one_liners(string);
         string = absolute_path ? string : delete_absolute_paths(string);
         string = custom_path_route != "" ? append_custom_path(string) : string;
         return string;
@@ -169,16 +180,11 @@
   <img
     src="/my_super_image.jpg"
     alt="My super descriptive alt">\n</picture>`;
-
-  onMount(() => {    
-  })
-
-  
-// export let string = default_string
 </script>
-<output_code class="w-full relative flex flex-col gap-y-4">
+
+<output_code class="w-full h-full relative flex flex-col gap-y-4">
   <!-- Do you want to output the corresponding code for the images? -->
-  <div class="flex items-center">
+  <div class="flex items-center h-full">
     <h2 class="flex items-center mr-4">Output code for images
       <!-- svelte-ignore a11y-mouse-events-have-key-events -->
       <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -207,47 +213,55 @@
       type="checkbox"/> -->
   </div>
 
-  <label class="flex gap-x-2 w-full text-nowrap">
+  <div class="flex items-center gap-x-2 w-full text-nowrap">
     Image alt:
     <input
       spellcheck="false"
       bind:value={alt}
       type="text">
-  </label>
-  <label class="flex gap-x-2 w-full text-nowrap">
+  </div>
+  <div class="flex items-center gap-x-2 w-full text-nowrap">
     Amount of spaces on indenting:
   <input
     type="number"
+    class="w-12 pl-3.5"
     min="1"
     max="10"
     pattern="[0-9]*"
-    on:keydown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}>    
-  </label>
-  <label class="flex gap-x-2 w-full text-nowrap">
+    maxlength="2"
+    oninput="this.value=this.value.slice(0,this.maxLength)"
+    on:keydown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
+    bind:value={indenting_amount}
+    on:input={() => write_config("indenting_amount", indenting_amount)}>
+  </div>
+  <div class="flex items-center gap-x-2 w-full text-nowrap">
     Include MIME types:
     <input
       bind:checked={mime_types}
+      on:input={() => write_config("include_mime_types", mime_types)}
       type="checkbox">
-  </label>
-  <label class="flex gap-x-2 w-full text-nowrap">
+  </div>
+  <div class="flex items-center gap-x-2 w-full text-nowrap">
     Image src:
     <input
       spellcheck="false"
       bind:value={custom_path_route}
       type="text">
-  </label>
-  <label class="flex gap-x-2 w-full text-nowrap">
+  </div>
+  <div class="flex items-center gap-x-2 w-full text-nowrap">
     Absolute paths:
     <input
       bind:checked={absolute_path}
+      on:input={() => write_config("use_absolute_paths", absolute_path)}
       type="checkbox">
-  </label>
-  <label class="flex gap-x-2 w-full text-nowrap">
+  </div>
+  <div class="flex items-center gap-x-2 w-full text-nowrap">
     New lines for properties:
     <input
-      bind:checked={one_liners}
+      bind:checked={use_new_lines_for_properties}
+      on:input={() => write_config("use_new_lines_for_properties", use_new_lines_for_properties)}
       type="checkbox">
-  </label>
+  </div>
 </output_code>
 
 <style>

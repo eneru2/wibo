@@ -1,10 +1,17 @@
 <script>
   export let defaultResolutions;
   export let output_width;
+  export let output_height;
 
   // $: button_equals_output_width = output_width === 512 ? 'bg-black' : '';
 </script>
-  <h2>Output width:</h2>
+  <h2>Output
+    {#if output_height}
+      height:
+      {:else}
+      width:
+    {/if}
+  </h2>
   <div class="flex items-center gap-x-2">
     <input
       bind:value={output_width}

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Tooltip from "./Tooltip.svelte";
+  import Tooltip from "../Tooltip.svelte";
   let hovered;
   export let output_schema = "";  
 </script>

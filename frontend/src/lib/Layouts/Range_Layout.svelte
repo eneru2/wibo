@@ -1,13 +1,17 @@
 <script lang="ts">
   import { onMount } from "svelte";    
+  
+  export let value:number;
+  export let container_width:number;  
+  export let max = 100;
+  export let maxlength = 3;
+  export let value_change;
+  export let name:string;
 
   let range:undefined | HTMLInputElement;
   let percentage;
   let slider_thumb;
-  export let value;
   let is_pressed = false;  
-  export let container_width;  
-  export let max = 100;
   const range_min = 0;
   const thumb_width = 16;
   
@@ -67,14 +71,31 @@
     }
   }
 
+  function change_input(){
+    setTimeout(() => {
+      if (value > max) {
+        value = max
+      };
+      //value/max*100 - myvar + "%"
+      // let myvar = thumb_width / container_width * 120
+      // value es un valor porcentual y
+      // x es una posicion relativa
+      slider_thumb.style.left = Math.round(value*(100-(thumb_width))/max) + "%";
+      percentage.style.width = Math.round(value/max*100) + "%";
+    }, 100);
+  }
+
   onMount(() => {
-    range.style.width = container_width + "px"
-    slider_thumb.style.left = value + "%"
+    // slider_thumb.style.left = value + "%"
+    // alert(Math.round(value/max*100) + "%")
+    // percentage.style.width = alert(Math.round(max) + "%");
+    range.style.width = container_width + "px";
+    slider_thumb.style.left = Math.round(value*(100-(thumb_width))/max) + "%";
+    percentage.style.width = Math.round(value/max*100) + "%";
   })
 
 </script>
 
-<!-- on:mousemove={on_mouse_move} -->
 <div class="flex items-center ml-auto gap-x-4">
 
   <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
@@ -82,7 +103,8 @@
     bind:this={range}  
     on:click={on_click}
     on:keydown={on_click}
-    on:mousedown={on_mouse_down}
+    on:mousedown={on_mouse_down}    
+    on:mouseup={value_change(name, value)}
     class="block relative border-2 border-black h-4 p-0.5 cursor-pointer w-8
     dark:border-white">
   
@@ -101,7 +123,13 @@
   <input
     class="w-12 pl-3.5"
     type="number"
+    maxlength={maxlength}
+    oninput="this.value=this.value.slice(0,this.maxLength);"  
     pattern="[0-9]*"
+    on:blur={() => value_change(name, value)}    
     bind:value={value}
-    on:keydown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}>
+    on:keydown={(evt) => {
+      ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault();
+      change_input()
+      }}>
 </div>

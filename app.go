@@ -26,7 +26,7 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx	
 }
 
-//go:embed frontend/dist/config.toml
+//go:embed frontend/src/config.toml
 var toml string
 
 func (a *App) InitialConfigRead() string {

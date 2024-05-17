@@ -1,11 +1,11 @@
 [saved_state]
 indenting_amount = 4
-include_mime_types = true
+include_mime_types = false
 use_absolute_paths = false
 use_new_lines_for_properties = false
 
 output_avif = false
-output_webp = true
+output_webp = false
 output_jpg = false
 
 avif_crf = 25

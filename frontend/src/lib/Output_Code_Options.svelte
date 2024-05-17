@@ -216,12 +216,12 @@
   </label>
   <label class="flex gap-x-2 w-full text-nowrap">
     Amount of spaces on indenting:
-    <input      
-      bind:value={indenting_amount}
-      min=1
-      max=10
-      class="w-full bg-transparent border-black border-2 px-2 min-h-7"
-      type="number">
+  <input
+    type="number"
+    min="1"
+    max="10"
+    pattern="[0-9]*"
+    on:keydown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}>    
   </label>
   <label class="flex gap-x-2 w-full text-nowrap">
     Include MIME types:

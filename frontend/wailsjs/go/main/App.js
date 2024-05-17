@@ -10,14 +10,30 @@ export function ConvertImage(arg1, arg2, arg3, arg4, arg5) {
   return window['go']['main']['App']['ConvertImage'](arg1, arg2, arg3, arg4, arg5);
 }
 
+export function Copy_To_Clipboard(arg1) {
+  return window['go']['main']['App']['Copy_To_Clipboard'](arg1);
+}
+
+export function InitialConfigRead(arg1) {
+  return window['go']['main']['App']['InitialConfigRead'](arg1);
+}
+
 export function MinimiseApp() {
   return window['go']['main']['App']['MinimiseApp']();
 }
 
-export function Open_Input_File_Dialog(arg1) {
-  return window['go']['main']['App']['Open_Input_File_Dialog'](arg1);
+export function Open_Input_File_Dialog() {
+  return window['go']['main']['App']['Open_Input_File_Dialog']();
 }
 
-export function Open_Output_Dir_Dialog(arg1) {
-  return window['go']['main']['App']['Open_Output_Dir_Dialog'](arg1);
+export function Open_Output_Dir_Dialog() {
+  return window['go']['main']['App']['Open_Output_Dir_Dialog']();
+}
+
+export function ReadConfig() {
+  return window['go']['main']['App']['ReadConfig']();
+}
+
+export function WriteOutputFormats(arg1, arg2) {
+  return window['go']['main']['App']['WriteOutputFormats'](arg1, arg2);
 }

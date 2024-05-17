@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Open_Output_Dir_Dialog, ConvertAnyFormatToPng} from '../wailsjs/go/main/App';
-  import Output_Code from './lib/Output_Code.svelte'
+  import Output_Code from './lib/Output_Code_Options.svelte'
   import Input_File from './lib/Input_File.svelte'
   import Output_Formats from './lib/Output_Formats.svelte'
   import Output_Width from './lib/Output_Width.svelte'

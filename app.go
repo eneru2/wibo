@@ -2,16 +2,13 @@ package main
 
 import (
 	"context"
-	_ "embed"
 	"os/exec"
 	"syscall"
 
+	"github.com/kirsle/configdir"
+	"github.com/spf13/viper"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
-	// "github.com/adrg/xdg"
 )
-
-//go:embed ffmpeg/ffmpeg.exe
-var ffmpeg_embed string
 
 // App struct
 type App struct {
@@ -26,17 +23,45 @@ func NewApp() *App {
 // startup is called when the app starts. The context is saved
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
-	a.ctx = ctx
+	a.ctx = ctx	
+}
 
-	// configFilePath, err := xdg.ConfigFile("wibo/config.json")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+type config struct {
+	indenting_amount int8
+	include_mime_types bool
+	use_absolute_paths bool
+	use_new_lines_for_properties bool
+	output_formats []string
+	avif_crf int8
+	webp_quality int8
 
-	// configFilePath, err = xdg.SearchConfigFile("wibo/config.json")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	output_resolutions []string
+	use_height_for_output bool
+	disable_tooltips bool
+}
+
+func (a *App) InitialConfigRead(send string) {
+	configPath := configdir.LocalConfig("wibo")
+	err := configdir.MakePath(configPath)
+	if err != nil {
+		panic(err)
+	}
+	config, _ := assets.ReadFile(send)
+	println(string(config))
+}
+
+
+
+func (a *App) ReadConfig() map[string]any {
+	config := viper.New()
+	config.SetConfigFile("config.toml")
+	config.ReadInConfig()
+	return config.AllSettings()
+}
+
+func (a *App) WriteOutputFormats(format string, state bool){
+	viper.Set(format, state)
+	viper.WriteConfig()
 }
 
 func (a *App) MinimiseApp() {
@@ -47,32 +72,32 @@ func (a *App) CloseApp() {
 	runtime.Quit(a.ctx)
 }
 
-func (a *App) Open_Input_File_Dialog(name string) string {
-	s, err := runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{
-
-	})
-	if err != nil {
-		return "error"
-	}
-
-	return s
+func (a *App) Copy_To_Clipboard(code string) {
+	runtime.ClipboardSetText(a.ctx, code)
 }
 
-func (a *App) Open_Output_Dir_Dialog(name string) string {
-	s, err := runtime.OpenDirectoryDialog(a.ctx, runtime.OpenDialogOptions{
-
-	})
+func (a *App) Open_Input_File_Dialog() string {
+	input_file, err := runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{})
+	
 	if err != nil {
 		return "error"
 	}
 
-	return s
+	return input_file
+}
+
+func (a *App) Open_Output_Dir_Dialog() string {
+	output_directory, err := runtime.OpenDirectoryDialog(a.ctx, runtime.OpenDialogOptions{})
+
+	if err != nil {
+		return "error"
+	}
+
+	return output_directory
 }
 
 func (a *App) ConvertImage(input_file string, format []string, scale string, output_location string, output_schema string) string {
-	// ffmpeg_location := "G:/Andrés/Download/ffmpeg-7.0-essentials_build/bin/ffmpeg"
-	// ffmpeg_location := "./ffmpeg.exe"
-	ffmpeg_location := "./ffmpeg"
+	ffmpeg_location := "./ffmpeg.exe"
 	ffmpeg_scale := "scale=" + scale + ":-1"
 	for i := 0; i < len(format); i++ {
 		ffmpeg_output := ""
@@ -131,6 +156,5 @@ func (a *App) ConvertImage(input_file string, format []string, scale string, out
 		}
 	}
 
-	// ffmpeg_command := exec.Command("G:/Andrés/Download/ffmpeg-7.0-essentials_build/bin/ffmpeg", "-i", "G:/Andrés/Download/ffmpeg-7.0-essentials_build/bin/ape.webp", "G:/Andrés/Download/ffmpeg-7.0-essentials_build/bin/sas2.jpg")
 	return "success"
 }

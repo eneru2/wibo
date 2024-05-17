@@ -5,8 +5,16 @@ export function CloseApp():Promise<void>;
 
 export function ConvertImage(arg1:string,arg2:Array<string>,arg3:string,arg4:string,arg5:string):Promise<string>;
 
+export function Copy_To_Clipboard(arg1:string):Promise<void>;
+
+export function InitialConfigRead(arg1:string):Promise<void>;
+
 export function MinimiseApp():Promise<void>;
 
-export function Open_Input_File_Dialog(arg1:string):Promise<string>;
+export function Open_Input_File_Dialog():Promise<string>;
 
-export function Open_Output_Dir_Dialog(arg1:string):Promise<string>;
+export function Open_Output_Dir_Dialog():Promise<string>;
+
+export function ReadConfig():Promise<{[key: string]: any}>;
+
+export function WriteOutputFormats(arg1:string,arg2:boolean):Promise<void>;

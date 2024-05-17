@@ -1,5 +1,5 @@
 <script>
-  import OutputCode from "./Output_Code.svelte";
+  import OutputCode from "./Output_Code_Options.svelte";
   export let output_name = "my_image"
   export let alt = "My super alt that's very descriptive"
 

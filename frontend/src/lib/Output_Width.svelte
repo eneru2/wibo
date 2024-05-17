@@ -8,18 +8,18 @@
   <div class="flex items-center gap-x-2">
     <input
       bind:value={output_width}
-      class="border-2 border-black bg-transparent px-2 py-1
-      dark:border-background"
+      class="px-2 py-1"
       min="16"
       max="3840"
-      type="number"/>
+      type="number"
+      on:keydown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}>    
     <!-- <input
       bind:value={output_width}
       type="range"
       min="16"
       max="3840"/> -->
     <default
-      class="grid grid-cols-6  gap-0.5 border-2 border-black bg-black
+      class="grid grid-cols-6 gap-0.5 border-2 border-black bg-black w-full
       dark:border-background dark:bg-background">
       {#each defaultResolutions as res}
         <button

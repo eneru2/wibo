@@ -43,12 +43,27 @@
 
   input[type="checkbox"]{
     @apply appearance-none border-black border w-4 h-4 rounded-md
-    p-2 relative
+    p-2 relative cursor-pointer
     after:w-3 after:h-3 after:top-0.5 after:left-0.5 after:absolute after:rounded after:bg-transparent
     dark:border-background
     checked:after:bg-black checked:dark:after:bg-background
   }
 
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+    outline: none;
+    @apply bg-transparent border-black border-2 dark:border-background
+  }
+
+  tooltip {
+    @apply absolute right-0 top-0 max-w-96 px-6 py-3 text-black bg-background border border-black z-10
+  }
 }
 
 @tailwind components;

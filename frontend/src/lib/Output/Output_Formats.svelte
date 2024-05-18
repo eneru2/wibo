@@ -2,26 +2,6 @@
   import { onMount } from 'svelte'
   import { ReadConfig, WriteOutputFormats } from '../../../wailsjs/go/main/App';
   
-  interface config {
-    saved_state: {
-      indenting_amount: number
-      include_mime_types: boolean
-      use_absolute_paths: boolean
-      use_new_lines_for_properties: boolean
-      
-      output_avif: boolean
-      output_webp: boolean
-      output_jpg: boolean
-  
-      avif_crf: number
-      webp_quality: number
-    },
-    options: {
-      output_resolutions: Array<string>
-      use_height_for_output: boolean
-      disable_tooltips: boolean
-    }
-  }
 
   export let formats:Array<string> = [];  
   
@@ -32,7 +12,10 @@
   export function load_config(config) {
       avif = config.saved_state.output_avif;
       webp = config.saved_state.output_webp;
-      jpg = config.saved_state.output_jpg;      
+      jpg = config.saved_state.output_jpg;
+      check_current_formats("avif")
+    check_current_formats("webp")
+    check_current_formats("jpg")    
   }
 
   function write_config(format, state){
@@ -48,7 +31,7 @@
         send_format = "output_jpg";
         break;
     };
-    WriteOutputFormats(send_format, state)
+    WriteOutputFormats(send_format, state)    
   };
 
   function check_current_formats(format:string){

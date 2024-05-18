@@ -3,7 +3,6 @@
   export let output_width;
   export let output_height;
 
-  // $: button_equals_output_width = output_width === 512 ? 'bg-black' : '';
 </script>
   <h2>Output
     {#if output_height}
@@ -20,17 +19,12 @@
       max="3840"
       type="number"
       on:keydown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}>    
-    <!-- <input
-      bind:value={output_width}
-      type="range"
-      min="16"
-      max="3840"/> -->
     <default
-      class="grid grid-cols-6 gap-0.5 border-2 border-black bg-black w-full
+      class="grid grid-cols-6 gap-0.5 border-2 border-black bg-black w-fit
       dark:border-background dark:bg-background">
       {#each defaultResolutions as res}
         <button
-          class="flex justify-center items-center p-0.5 bg-background aspect-square text-sm
+          class="flex justify-center items-center py-1.5 px-1 bg-background text-sm
           dark:bg-black"
           on:click={() => (output_width = res)}>{res}</button>
       {/each}

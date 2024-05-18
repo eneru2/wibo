@@ -6,16 +6,16 @@
 
   function open_output_dir_dialog(){
     Open_Output_Dir_Dialog().then((res) => {
-      output_dir = res
+      output_dir = res;
     });
-  }
+  };
 </script>
 <div class="flex flex-col">
-  <h2>Output directory:</h2>
+  <h2 class="mb-2">Output directory:</h2>
   <div class="flex gap-x-2 items-center">
     <button
       on:click={open_output_dir_dialog}
-      class="border-2 border-black w-full min-h-7 max-h-14 break-all px-2 text-left overflow-auto
+      class="border-2 border-black w-full min-h-7 max-h-14 px-2 text-left overflow-hidden
       dark:border-background">
       {#if output_dir != undefined}
         {output_dir}

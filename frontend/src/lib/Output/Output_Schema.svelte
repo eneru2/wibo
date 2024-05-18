@@ -1,25 +1,33 @@
 <script lang="ts">
-  import Tooltip from "../Tooltip.svelte";
+    import TooltipLayout from "../Layouts/Tooltip_Layout.svelte";
+
+  
   let hovered;
-  export let output_schema = "";  
+  export let output_schema = "";
+  export let disable_tooltips;
+  let description = "Allows to create custom file names for the output files.";
+  let default_behaviour = "If this field is empty the output will default to the input's file name."
+  let options = `
+  [res]<br/>
+  <p class="pl-4">
+    If you want to use the target res in the name of your output, you can do
+    it with this argument, as an example, <b>flying_bird-[res]x</b> would
+    output:</p>
+      <p class="pl-8">
+        - flying_bird-512x.jpg<br />
+        - flying_bird-512x.webp<br />
+        - flying_bird-512x.avif</p>
+  `
 </script>
 
 <div class="relative">
-  <div class="flex gap-x-2">
-    <h2 class="">
-    Output name schema:
-    </h2> 
-  <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <div
-    class="w-6 h-6"
-    on:mouseover={() => (hovered = true)}
-    on:mouseleave={() => (hovered = false)}>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-      {#if hovered}
-        <Tooltip/>
-      {/if}
-    </div>
+  <div class="flex items-center mb-2">
+    <h2>Output name schema:</h2>
+    <TooltipLayout
+      bind:disable_tooltips
+      bind:options
+      bind:description={description}
+      bind:default_behaviour={default_behaviour}/>
   </div>
   <input
     spellcheck="false"

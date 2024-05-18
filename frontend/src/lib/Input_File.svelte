@@ -7,7 +7,7 @@
   let input_file_name;
 
   function open_file_dialog(){
-    Open_Input_File_Dialog("hello").then(res => {
+    Open_Input_File_Dialog().then(res => {
       input_file = res
       const changeEscapesOnWindows = /\\/g
       res = res.replaceAll(changeEscapesOnWindows, "/")
@@ -30,7 +30,7 @@
   <h3 class="w-fit text-nowrap">Input file:</h3>  
   <button  
     on:click={open_file_dialog}
-    class="w-full min-h-7 max-h-7 px-3 border-2 border-black text-nowrap overflow-auto text-left
+    class="w-full min-h-7 max-h-7 px-3 border-2 border-black text-nowrap overflow-hidden text-left
     dark:border-background">
       {#if (input_file_name != undefined) }
         {input_file_name}

@@ -1,12 +1,16 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import RangeLayout from "../Layouts/Range_Layout.svelte";
   import TooltipLayout from "../Layouts/Tooltip_Layout.svelte";  
   import { WriteOutputQualities } from "../../../wailsjs/go/main/App";
 
+  export let disable_tooltips;
+  let on_mount;
+  let on_mount2;
   export function load_config(config) {
     avif_crf = config.saved_state.avif_crf;
-    webp_quality = config.saved_state.webp_quality;
+    webp_quality = config.saved_state.webp_quality;    
+    on_mount();
+    on_mount2();
   }
 
   let write_config = (format:string, value:number) => {
@@ -46,29 +50,15 @@
   <h2>Output quality:</h2>
   <div class="flex flex-col gap-y-2 pt-1">
     <div class="flex items-center">
-      AVIF
-      <div class="w-6 h-6 relative ml-2"
-      on:mouseenter={() => avif_tooltip = true}
-      on:mouseleave={() => avif_tooltip = false}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"          
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round" >
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M12 16v-4"/><path d="M12 8h.01"/>
-        </svg>
-        {#if avif_tooltip}
-          <TooltipLayout
+      AVIF:
+      <TooltipLayout
+            
+            bind:disable_tooltips
             bind:description={avif_description}
             bind:default_behaviour={avif_default_behaviour}
             />
-        {/if}
-      </div>:
       <RangeLayout
+        bind:change_input={on_mount}
         bind:value_change={write_config}
         bind:value={avif_crf}
         name={"avif"}
@@ -76,23 +66,15 @@
         maxlength={2}
         max={63}/>
     </div>
-      <!-- <input
-        bind:value={avif_value}
-        type="range" min="0" max="63" /> -->
-    <div class="flex">
-      WEBP
-      <div class="w-6 h-6 relative ml-2"
-      on:mouseenter={() => webp_tooltip = true}
-      on:mouseleave={() => webp_tooltip = false}>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-      {#if webp_tooltip}
-        <TooltipLayout
-          bind:description={webp_description}
-          bind:default_behaviour={webp_default_behaviour}
-          />
-      {/if}
-    </div>:
+    <div class="flex items-center">
+      WEBP:
+      <TooltipLayout
+        bind:disable_tooltips
+        bind:description={webp_description}
+        bind:default_behaviour={webp_default_behaviour}
+        />
       <RangeLayout
+        bind:change_input={on_mount2}
         bind:value_change={write_config}
         bind:value={webp_quality}
         name={"webp"}

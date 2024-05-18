@@ -1,5 +1,5 @@
-// +build windows, !no_embed_ffmpeg
+// +build windows, embeded_ffmpeg
 
 package main
 
-const ffmpeg_location = "ffmpeg.exe"
+const embeded_ffmpeg = true

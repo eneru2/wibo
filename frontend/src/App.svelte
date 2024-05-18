@@ -12,6 +12,9 @@
   import Code from "./lib/Code.svelte";
   import ExtraOptions from "./lib/Extra_Options.svelte";
   
+  InitialConfigRead()
+
+  let disable_tooltips
   let avif_crf;
   let webp_quality;
   let output_height:boolean;
@@ -30,10 +33,31 @@
     384,
   ];
 
+  interface config {
+    saved_state: {
+      indenting_amount: number
+      include_mime_types: boolean
+      use_absolute_paths: boolean
+      use_new_lines_for_properties: boolean
+      
+      output_avif: boolean
+      output_webp: boolean
+      output_jpg: boolean
+  
+      avif_crf: number
+      webp_quality: number
+    },
+    options: {
+      output_resolutions: Array<string>
+      use_height_for_output: boolean
+      disable_tooltips: boolean
+    }
+  }
+
   let load_formats;
   let load_qualities;
   let load_code_options;
-  InitialConfigRead()
+  let load_extra_options;
   
   let formats:Array<string> = [];
   let code: (internal_output_schema?:string) => string;
@@ -41,14 +65,16 @@
   function readConfig() {
     return ReadConfig()
     .then(res => {
+      disable_tooltips = res.options.disable_tooltips      
       load_formats(res);
       load_qualities(res);
       load_code_options(res);
+      load_extra_options(res);
       return res;
     });
   };
   
-  let config = readConfig()
+  let config:config|any = readConfig()
 
   function check_for_res_argument(){
     const regex = /\[res]/g;
@@ -61,11 +87,13 @@
     check_for_res_argument();
     ConvertImage(input_file, formats, output_width.toString(),
     output_dir, internal_output_schema,
-    avif_crf.toString(), webp_quality.toString(), output_height);
+    avif_crf.toString(), webp_quality.toString(), output_height).then(res => {
+      texts = res
+    });
     default_string = code(internal_output_schema);
   };
 
-
+  let texts
   onMount(() => {
     // TODO: Create custom contextmenu
     document.addEventListener("contextmenu", (event) => {
@@ -75,6 +103,7 @@
 
 </script>
 <Navbar/>
+<h1>{texts}</h1>
 <app
   class="flex flex-col flex-grow p-8 overflow-auto
   -outline-offset-[10px] outline outline-3 outline-black border-2 border-black
@@ -111,8 +140,10 @@
       <OutputDirectory
         bind:output_dir/>
       <Output_Schema
+        bind:disable_tooltips
         bind:output_schema/>
       <Output_Quality
+        bind:disable_tooltips
         bind:load_config={load_qualities}
         bind:avif_crf
         bind:webp_quality/>
@@ -121,6 +152,8 @@
   <div class="flex h-full mt-4 gap-4 justify-between">
     <div class="w-1/3 flex flex-col gap-4 h-full">
       <ExtraOptions
+        bind:load_config={load_extra_options}
+        bind:disable_tooltips
         bind:output_height/>
       <div class="h-fit w-full border-dotted border-zinc-700 border-2 relative p-3  gap-y-2 flex flex-col
     dark:border-background">        

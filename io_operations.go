@@ -52,3 +52,13 @@ func (a *App) WriteIndentingAmount(value int8){
 	config.Set("saved_state.indenting_amount", value)
 	config.WriteConfig()
 }
+
+func (a *App) WriteExtraOptions(propertie string, value bool){
+	config := viper.New()
+	config.AddConfigPath(a.InitialConfigRead())
+	config.SetConfigName("config")
+	config.SetConfigType("toml")
+	config.ReadInConfig()
+	config.Set("options." + propertie, value)
+	config.WriteConfig()
+}

@@ -7,6 +7,7 @@
   export let maxlength = 3;
   export let value_change;
   export let name:string;
+  let input_element;
 
   let range:undefined | HTMLInputElement;
   let percentage;
@@ -50,19 +51,19 @@
     }   
 
     percentage.style.width = track_width + "%";
-    slider_thumb.style.left = thumb_pos + "%";
+    slider_thumb.style.left = thumb_pos + "%";    
   }
   
   function on_mouse_down(event){    
-    on_click(event)
     is_pressed = true
+    on_click(event)
 
     document.addEventListener("mousemove", on_mouse_move)
 
     document.addEventListener("mouseup", () => { 
       is_pressed = false, 
       document.removeEventListener("mousemove",on_mouse_move)
-    }, {once: true})
+    })
   }
 
   function on_mouse_move(event){
@@ -71,27 +72,43 @@
     }
   }
 
-  function change_input(){
+  export function change_input(){
     setTimeout(() => {
       if (value > max) {
-        value = max
+        value = max;
       };
       //value/max*100 - myvar + "%"
       // let myvar = thumb_width / container_width * 120
       // value es un valor porcentual y
       // x es una posicion relativa
       slider_thumb.style.left = Math.round(value*(100-(thumb_width))/max) + "%";
-      percentage.style.width = Math.round(value/max*100) + "%";
+      percentage.style.width = Math.round(value/max*100) + "%";      
     }, 100);
   }
+
+  // export function on_mount(avif, webp){
+  //   if (name === "avif"){
+  //     value = avif
+  //     max = 63
+  //     range.style.width = container_width + "px";
+  //     slider_thumb.style.left = Math.round(value*(100-(thumb_width))/max) + "%";
+  //     percentage.style.width = Math.round(value/max*100) + "%"; 
+  //   } else {
+  //     value = webp
+  //     max = 100
+  //     range.style.width = container_width + "px";
+  //     slider_thumb.style.left = Math.round(value*(100-(thumb_width))/max) + "%";
+  //     percentage.style.width = Math.round(value/max*100) + "%"; 
+  //   }
+  // }
 
   onMount(() => {
     // slider_thumb.style.left = value + "%"
     // alert(Math.round(value/max*100) + "%")
     // percentage.style.width = alert(Math.round(max) + "%");
-    range.style.width = container_width + "px";
-    slider_thumb.style.left = Math.round(value*(100-(thumb_width))/max) + "%";
-    percentage.style.width = Math.round(value/max*100) + "%";
+      range.style.width = container_width + "px";
+      slider_thumb.style.left = Math.round(value*(100-(thumb_width))/max) + "%";
+      percentage.style.width = Math.round(value/max*100) + "%"; 
   })
 
 </script>
@@ -99,10 +116,10 @@
 <div class="flex items-center ml-auto gap-x-4">
 
   <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
   <range tabindex="0"
     bind:this={range}  
     on:click={on_click}
-    on:keydown={on_click}
     on:mousedown={on_mouse_down}    
     on:mouseup={value_change(name, value)}
     class="block relative border-2 border-black h-4 p-0.5 cursor-pointer w-8
@@ -120,16 +137,18 @@
       dark:bg-black dark:border-white">
     </slider_thumb>
   </range>
+  <!-- bind:value={value}     -->
   <input
     class="w-12 pl-3.5"
     type="number"
     maxlength={maxlength}
-    oninput="this.value=this.value.slice(0,this.maxLength);"  
+    oninput="this.value=this.value.slice(0,this.maxLength);"
     pattern="[0-9]*"
-    on:blur={() => value_change(name, value)}    
+    on:change={() => value_change(name, value)}
     bind:value={value}
     on:keydown={(evt) => {
       ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault();
       change_input()
-      }}>
+      }}
+    >
 </div>

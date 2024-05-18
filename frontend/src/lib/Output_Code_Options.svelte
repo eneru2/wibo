@@ -169,6 +169,11 @@
       };
     };
   }
+  
+  function tests(){
+    //
+    construct_output_string()
+  }
 
   export let default_string = `<picture>
   <source
@@ -184,10 +189,11 @@
 
 <output_code class="w-full h-full relative flex flex-col gap-y-4">
   <!-- Do you want to output the corresponding code for the images? -->
-  <div class="flex items-center h-full">
+  <!--<div class="flex items-center h-full">
     <h2 class="flex items-center mr-4">Output code for images
       <!-- svelte-ignore a11y-mouse-events-have-key-events -->
       <!-- svelte-ignore a11y-no-static-element-interactions -->
+      <!--
       <div
       class="w-5 h-5 ml-1"
       on:mouseover={() => (tooltip_on_screen = true)}
@@ -208,11 +214,10 @@
         {/if}
         </div>:
     </h2>
-    <!-- <input
+     <input
       bind:checked={wants_output_code}      
-      type="checkbox"/> -->
-  </div>
-
+      type="checkbox"/> 
+  </div> -->
   <div class="flex items-center gap-x-2 w-full text-nowrap">
     Image alt:
     <input

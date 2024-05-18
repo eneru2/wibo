@@ -34,6 +34,10 @@ export function ReadConfig() {
   return window['go']['main']['App']['ReadConfig']();
 }
 
+export function WriteExtraOptions(arg1, arg2) {
+  return window['go']['main']['App']['WriteExtraOptions'](arg1, arg2);
+}
+
 export function WriteIndentingAmount(arg1) {
   return window['go']['main']['App']['WriteIndentingAmount'](arg1);
 }

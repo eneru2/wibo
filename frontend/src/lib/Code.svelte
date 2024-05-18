@@ -35,7 +35,8 @@
     <textarea 
       class="resize-none h-full" spellcheck="false" bind:value={default_string}></textarea>
     <button
-      class="absolute right-4 top-4 w-fit h-fit px-2 py-1 border-2 border-white text-white"
+      class="absolute right-4 top-4 w-fit h-fit px-2 py-1 border-2 border-white text-white
+      dark:text-black dark:border-black"
       on:click={copy_to_clipboard}>Copy</button>
     </div>
       <success_message
